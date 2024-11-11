@@ -12,8 +12,9 @@ class LearningPathEnv(gym.Env):
         self.num_topics = 5
         self.observation_space = spaces.Box(low=0, high=100, shape=(self.num_topics,), dtype=np.float32)
 
-        # Espacio de acción: Acciones posibles (Seleccionar módulos o tareas específicas)
-        self.action_space = spaces.Discrete(10)
+        # Espacio de acción: Acciones posibles (Seleccionar tareas específicas)
+        self.num_activities = 5
+        self.action_space = spaces.Discrete(self.num_activities)
 
         # Difulcultad de cada curso
         self.state_difficulty = np.array([75, 50, 80, 30, 10], dtype=np.float32)
