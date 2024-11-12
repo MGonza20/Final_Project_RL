@@ -17,13 +17,13 @@ class LearningPathEnv(gym.Env):
         self.action_space = spaces.Discrete(self.num_activities)
         self.state_difficulty = np.array([50, 30, 60, 20, 5], dtype=np.float32)
         self.state = np.zeros(self.num_topics, dtype=np.float32)
-        self.activity_impact = np.array([
-            [5, 2, 1, 0, 0], 
-            [0, 3, 0, 4, 1], 
-            [2, 0, 5, 1, 0], 
-            [1, 1, 2, 3, 0], 
-            [0, 0, 3, 2, 5],
-        ], dtype=np.float32)
+        self.activity_impact = {
+            "Utilización de teorema para probar que un número n > 1 es primo": [5, 2, 1, 0, 0], 
+            "Reading and Calculations on Events of the Battle of New Orleans": [0, 3, 0, 4, 1], 
+            "Encontrar la factorización de prima de un entero n": [2, 0, 5, 1, 0], 
+            "Programa para balanceo de ecuaciones": [1, 1, 2, 3, 0], 
+            "Essay on Various Scientific Discoveries in the 20th Century": [0, 0, 3, 2, 5],
+        }
         self.current_step = 0
 
     def reset(self):
@@ -32,7 +32,7 @@ class LearningPathEnv(gym.Env):
         return self.state
 
     def step(self, action):
-        base_improvements = self.activity_impact[action]
+        base_improvements = list(self.activity_impact.values())[action]
         skill_improvements = base_improvements * (1 - (self.state_difficulty / 100))
         self.state = np.clip(self.state + skill_improvements, 0, 100)
         self.current_step += 1
@@ -109,6 +109,11 @@ def update_model():
 # Entrenamiento
 all_rewards = []
 all_actions = []
+
+# Selección de la mejor ruta
+best_actions = []
+max_reward = -float('inf')
+
 for episode in range(num_episodes):
     state = env.reset()
     episode_reward = 0
@@ -136,6 +141,10 @@ for episode in range(num_episodes):
     if episode % 100 == 0:
         print(f"Episode {episode}, Reward: {episode_reward}, Epsilon: {epsilon:.3f}")
 
+    if episode_reward > max_reward:
+        max_reward = episode_reward
+        best_actions = episode_actions
+
 # Visualización del progreso de recompensas
 plt.plot(all_rewards)
 plt.xlabel('Episodios')
@@ -151,3 +160,10 @@ plt.ylabel('Acción')
 plt.title('Acciones tomadas en el último episodio')
 plt.grid(True)
 plt.show()
+
+print("\nMejor Ruta de Aprendizaje Encontrada:")
+print("\nSecuencia de Acciones:")
+
+keys = list(env.activity_impact.keys())
+for action in best_actions:
+    print(keys[action])
