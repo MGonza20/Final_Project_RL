@@ -17,7 +17,7 @@ class LearningPathEnv(gym.Env):
         self.action_space = spaces.Discrete(self.num_activities)
         self.state_difficulty = np.array([50, 30, 60, 20, 5], dtype=np.float32)
         self.state = np.zeros(self.num_topics, dtype=np.float32)
-        n = 10
+        n = 1
         self.activity_impact = {
             "Utilización de teorema para hacer una prueba": [5*n, 2*n, 1*n, 0*n, 0*n], 
             "Reading and Calculations on Events of a Story": [0*n, 3*n, 0*n, 4*n, 1*n], 
