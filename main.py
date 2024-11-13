@@ -17,12 +17,13 @@ class LearningPathEnv(gym.Env):
         self.action_space = spaces.Discrete(self.num_activities)
         self.state_difficulty = np.array([50, 30, 60, 20, 5], dtype=np.float32)
         self.state = np.zeros(self.num_topics, dtype=np.float32)
+        n = 10
         self.activity_impact = {
-            "Utilización de teorema para probar que un número n > 1 es primo": [5, 2, 1, 0, 0], 
-            "Reading and Calculations on Events of the Battle of New Orleans": [0, 3, 0, 4, 1], 
-            "Encontrar la factorización de prima de un entero n": [2, 0, 5, 1, 0], 
-            "Programa para balanceo de ecuaciones": [1, 1, 2, 3, 0], 
-            "Essay on Various Scientific Discoveries in the 20th Century": [0, 0, 3, 2, 5],
+            "Utilización de teorema para hacer una prueba": [5*n, 2*n, 1*n, 0*n, 0*n], 
+            "Reading and Calculations on Events of a Story": [0*n, 3*n, 0*n, 4*n, 1*n], 
+            "Encontrar la factorización de una operación": [2*n, 0*n, 5*n, 1*n, 0*n], 
+            "Programa para balanceo de ecuaciones": [1*n, 1*n, 2*n, 3*n, 0*n], 
+            "Essay on Various Scientific Discoveries in the 20th Century": [0*n, 0*n, 3*n, 2*n, 5*n],
         }
         self.current_step = 0
 
